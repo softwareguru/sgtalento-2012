@@ -1,0 +1,13 @@
+#Node modules ignore
+node_modules
+
+#Ignore gzip files
+*.gz
+
+#Ignore log files
+*.log
+.idea
+.npmrc
+datastore
+utils
+logs
