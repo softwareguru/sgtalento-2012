@@ -1,10 +1,10 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes');
+var express = require('express');
+var routes = require('./routes');
+var auth = require('./lib/auth');
 
 var app = module.exports = express.createServer();
 
@@ -27,9 +27,16 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+
+// Auth
+
+auth.addHelpers(app);
+
+
 // Routes
 
 app.get('/', routes.index);
+
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
