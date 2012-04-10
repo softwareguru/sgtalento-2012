@@ -2,11 +2,17 @@
 html(class='no-js',lang=currentLocale)
   head
     meta(charset='utf-8')
+    meta(http-equiv="X-UA-Compatible",content="IE=edge,chrome=1")
+
+    - if(typeof(person) != 'undefined')
+      title SG Talento - #{person.name} #{person.lastNames}
+    - else 
+      title SG Talento
+
     meta(name='description',content='SG Talento')
     meta(name='author',content='Just Cloud')
-    meta(name='viewport',width='width=device-width,initial-scale=1')
 
-    title SG Talento - Presúmete
+    meta(name='viewport',width='width=device-width,initial-scale=1')
 
     //Google and tagit css
     link(rel='stylesheet',type='text/css', href='http://fonts.googleapis.com/css?family=Arimo:400,700|Yanone+Kaffeesatz&subset=latin&v2')
@@ -15,7 +21,7 @@ html(class='no-js',lang=currentLocale)
 
     //Boilerplate before
     link(rel='stylesheet',href='/styles/css/style.css')
-
+    
     //Bootstrap.less customized
     link(rel='stylesheet',href='/styles/less/style.css')
 
@@ -32,19 +38,25 @@ html(class='no-js',lang=currentLocale)
 
     script(src='/scripts/js/libs/modernizr-2.0.6.min.js')
 
-    script
-      window._gaq = [['_setAccount','UA-21077034-6'],['_trackPageview'],['_trackPageLoadTime']];
-      Modernizr.load({
-        load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
-      });
-
   body
     #page
+      - if(typeof(person) != 'undefined')
+        #header-cv.clearfix
+          -var qrUrl = "http://chart.apis.google.com/chart?cht=qr&chs=80x80&chl=http://talento.sg.com.mx/" + person.slug
+          a(href="/" + person.slug + "/badge")
+            img(src=qrUrl, alt=person.slug, title=person.name,style='float: left; margin-right: 20px')
+          h1(style='padding-top: 16px') #{person.name} #{person.lastNames}
 
-      .spacer
-      #banner-header
-        img(src="/img/banner-header.jpg");
-
+          ul#main-nav
+            li.current
+              a(href="/") Home
+            - if(everyauth.loggedIn)
+              li
+                a(href="/edit") Editar
+              li
+                a(href="/delete") Eliminar
+              li
+                a(href="/logout") Salir
       .content-innertube
         - var infoMessages = request.flash('info')
         - var warningMessages = request.flash('warning')
@@ -56,16 +68,17 @@ html(class='no-js',lang=currentLocale)
         - each success in successMessages
           .success= success
         != body
-
-      #banner-footer
-        img(src="/img/banner-footer.jpg");
-      #signature SG Talento es un servicio más proporcionado por
-          a(href="http://sg.com.mx") &nbsp;SG Software Guru&nbsp;
-          p
-            | Soporte:
-            a(href="mailto:soporte.talento@sg.com.mx") soporte.talento@sg.com.mx
+      #footer
+        #footer-innertube
+          .clear
+          p 
+            | SG Talento es un servicio provisto por 
+            a(href="http://sg.com.mx") SG Software Guru
+            |.
+          #go-top
 
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js')
+
 
     script
       window.jQuery || document.write('<script src="/scripts/js/libs/jquery-1.6.2.min.js"><\\\/script>')
@@ -74,3 +87,19 @@ html(class='no-js',lang=currentLocale)
     script(src='//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js')
 
     script(src='/scripts/js/plugins.js')
+
+    - if(typeof(scripts) != 'undefined')
+      - each script in scripts
+        script(type="text/javascript",src=script)
+
+    script
+      window._gaq = [['_setAccount','UA-21077034-6'],['_trackPageview'],['_trackPageLoadTime']];
+      Modernizr.load({
+        load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+      });
+
+    //if lt IE 8
+      script(src='//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js')
+      script
+        window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})
+        

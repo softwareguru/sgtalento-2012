@@ -1,6 +1,7 @@
 #Node modules ignore
 node_modules
 
+
 #Ignore gzip files
 *.gz
 

@@ -1,0 +1,21 @@
+h1 Bienvenido ADMIN!
+
+p Hay #{filled} perfiles registrados.
+
+- if(authorizeUsers.length)
+  p Tiene los siguientes usuarios por autorizar
+
+  ul
+  - each user in authorizeUsers
+    li
+      = user.name + ' (' + user.email + ')'
+      | 
+      a(href='/admin/authorize/' + user._id) Autorizar
+
+- if(users.length)
+  p Y tiene a los siguientes usuarios autorizados
+
+  ul
+  - each user in users
+    li
+      = user.name + ' (' + user.email + ')'
