@@ -16,3 +16,4 @@ new
 
 #Ignore config file
 lib/conf.coffee
+
