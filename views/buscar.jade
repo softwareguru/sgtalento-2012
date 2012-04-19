@@ -1,0 +1,54 @@
+h2 Búsqueda de perfiles
+
+form#form-container(method="post")
+
+  label(for='query') Búsqueda
+  input#query(type='text',name='query',class='validate[required]',value=query)
+
+  #submit-btn
+    input.submit(type="submit",value="Buscar")
+
+  .clear
+
+- if(typeof(total) != 'undefined' && total == 0)
+  p No se encontraron resultados, amplia tu criterio de búsqueda.
+
+- if(typeof(hits) != 'undefined' && hits.length)
+  p Se encontraron #{total} resultados.
+    - if (total > hits.length)
+      span
+        |  Mostrando los #{hits.length} mejor alineados a tu criterio de búsqueda
+
+  h2 Resultados
+
+  table.searchresults
+    tr.first
+      td.first #
+      td.first Nombre
+      td.first Perfil
+      td.first Lugar
+
+    - var i = 0
+    - each hit in hits
+      - var profile = hit._source
+      tr
+        td #{++i}
+        td
+          - var fullName = ""
+          - if (profile.name)
+            fullName = profile.name + ' ' +profile.lastNames
+          - if (profile.firstName)
+            fullName = profile.firstName + ' '+profile.lastName
+          if(isRecruiter)
+            a(href=profile.slug, target="_blank")= fullName
+          else
+            a(href="/solo-reclutadores", target="_blank")= fullName
+        td
+          | #{profile.title}
+        td
+          | #{profile.place}
+
+  .clear
+
+  .spacer
+

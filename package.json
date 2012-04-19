@@ -1,49 +1,9 @@
 {
-  "author": "Eduardo Diaz <iamedu@gmail.com> (http://iamedu.mx)",
-  "name": "sgtalento",
-  "description": "SG Talento online CV",
-  "version": "0.0.1",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/just-cloud/sgtalento.git"
-  },
-  "config": {
-    "secret": "softwareguru"
-  },
-  "engines": {
-    "node": ">= 0.4.7"
-  },
-  "scripts": {
-    "start": "coffee server.coffee",
-    "import": "coffee import.coffee",
-    "indexAll": "coffee indexAll.coffee"
-  },
-  "dependencies": {
-    "coffee-script": ">= 1.1.2",
-    "express": ">= 2.4.6",
-    "less": ">= 1.1.4",
-    "jade": ">= 0.15.4",
-    "underscore": ">= 1.1.7",
-    "socket.io": ">= 0.8.4",
-    "browserify": ">= 1.5.0",
-    "uglify-js": ">= 1.0.7",
-    "pkginfo": ">= 0.2.2",
-    "connect-gzip": ">= 0.1.0",
-    "backbone": ">= 0.5.2",
-    "async": ">= 0.1.9",
-    "markdown": ">= 0.2.1",
-    "connect-i18n": ">= 0.2.0",
-    "node-gettext": ">= 0.1.1",
-    "mongoose":">= 2.2.0",
-    "everyauth":">= 0.2.20",
-    "oauth": ">= 0.9.5",
-    "connect-redis": ">= 1.0.7",
-    "mongoose":">= 2.2.1",
-    "mongoose-types": ">= 1.0.3",
-    "elastical": ">= 0.0.2",
-    "lazy": "*",
-    "amqp": "0.1.1",
-    "forever": "*"
-  },
-  "devDependencies": {}
+    "name": "application-name"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "express": "2.5.8"
+    , "jade": ">= 0.0.1"
+  }
 }

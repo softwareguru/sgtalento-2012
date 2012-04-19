@@ -1,30 +1,29 @@
 
-h2 Registro de reclutadores
+h2 Bienvenido a SG Talento
 
 .clear
 
-form#form-container(method="post")
+p
+  | Por favor regístrate como usuario de SG Talento.
+  | Indica tu email y escoge una contraseña.
 
-  - if(typeof(errors) != 'undefined')
-    = errors
 
-  label(for='username') User ID
-  input#username(type='text',name='login',class='validate[required]')
-  .clear
+- if ('undefined' !== typeof errors && errors.length)
+  ul#errors
+    - each error in errors
+      li.error= error
 
-  label(for='password') Password
-  input#password(type='password',name='password',class='validate[required]')
-  .clear
+form#form-container(action='/register', method="post")
 
-  label(for='name') Nombre
-  input#name(type='text',name='name',class='validate[required]')
-  .clear
-
-  label(for='email') Email
-  input#email(type='text',name='email',class='validate[required]')
-  .clear
-
+  #login
+    label(for='login') Email:
+    input(type='text', name=everyauth.password.loginFormFieldName, value=userParams[everyauth.password.loginFormFieldName])
+    .clear
+  #password
+    label(for=everyauth.password.passwordFormFieldName) Password
+    input#password(type='password', name=everyauth.password.passwordFormFieldName, class='validate[required]')
+    .clear
   #submit-btn
-    input.submit(type="submit",value="Registrar")
+    input.submit(type='submit', value='Registrar') Registrar
+    .clear
 
-  .clear

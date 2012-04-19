@@ -1,116 +1,128 @@
-- if(person.filled)
-  - if(request.loggedIn && needsServices.length > 0 && isMe)
-    h3
-      | Enlazar servicios adicionales
-    p
-    - each neededService in needsServices
-      a(href="/auth/" + neededService)
-        img(src="/img/" + neededService + "-logo.png",style="width:64px")
 
-    .clearfix
+#header-cv.clearfix
+  ul#main-nav
+    li.current
+      a(href="/") Home
+    - if(isMe)
+      li
+        a(href="/edit") Editar
+      li
+        a(href="/delete") Eliminar
+    - if(everyauth.loggedIn)
+      li
+        a(href="/logout") Salir
 
-  #content-left
-    .section
+  h1(style='padding-top: 16px') #{profile.firstName} #{profile.lastName}
 
-      .item
-        -var gravatarUrl = "http://www.gravatar.com/avatar/" + gravatar + "?s=250"
-        img(src=gravatarUrl, alt=person.slug, title=profile.name)
-      - if (isRecruiter)
+#content
+
+  .content-innertube
+    - var infoMessages = request.flash('info')
+    - var warningMessages = request.flash('warning')
+    - var successMessages = request.flash('success')
+    - each info in infoMessages
+      .info= info
+    - each warning in warningMessages
+      .warning= warning
+    - each success in successMessages
+      .success= success
+
+    #content-left
+      .section
+
         .item
-          a(href="mailto:"+person.email)= person.email
+          -var fullName = profile.firstName +" "+profile.lastName
+          -var gravatarUrl = "http://www.gravatar.com/avatar/" + gravatar + "?s=250"
+          img(src=gravatarUrl, alt=person.slug, title=fullName)
+        - if (isRecruiter)
+          .item
+            a(href="mailto:"+person.email)= person.email
 
-       .clearfix    
+        .clearfix
 
-    .section(style='padding-top: 20px')
-      .clearfix
-        h2 Experiencia laboral
+      .section(style='padding-top: 20px')
+        .clearfix
+          h2 Experiencia laboral
 
-      - each job in profile.jobs
-        .item
-          h3= job.title
-          .company
-            | #{job.company}
-            span.date #{job.start} -
-              - if(job.end)
-                | #{job.end}
+        - each job in profile.jobs
+          .item
+            h3= job.title
+            .company
+              | #{job.company}
+              span.date #{job.start} -
+                - if(job.end)
+                  | #{job.end}
+                - else
+                  | presente
+            .description
+              p= job.summary
+
+    #content-right
+      .section
+        .clearfix
+
+          h3= profile.title
+          br
+
+          p= profile.summary
+          br
+
+
+      - if(profile.skills.length > 0)
+        .section(style='padding-top: 20px')
+          .clearfix
+            h2 Skills
+
+          .item
+            - each skill in skills
+              span.skillname
+                | #{skill.name}
+              - if (!skill.auto)
+                span.skillstars
+                  - each star in skill.stars
+                    - var starUrl = '/img/star-' + star + '.png'
+                    img(src=starUrl)
+              .clear
+
+      - if(profile.educations.length > 0)
+        .section(style='padding-top: 20px')
+          .clearfix
+            h2 Educación
+
+        - each education in profile.educations
+          .item
+            h3= education.title
+            h4
+              | #{education.school}
+            .date #{education.start} -
+              - if(education.end)
+                | #{education.end}
               - else
                 | presente
-          .description
-            p= job.summary
+            .description
+              p.margin= education.title
+              p= education.summary
 
-  #content-right
-    .section
-      .clearfix
+      - if(profile.publications.length > 0)
+        .section(style='padding-top: 20px')
+          .clearfix
+            h2 Publicaciones
+          - each publication in profile.publications
+            h3
+              a(href=publication.url)= publication.title
 
-        h3= profile.title
+      - if(profile.affiliations.length > 0)
+        .section(style='padding-top: 20px')
+          .clearfix
+            h2 Afiliaciones
+          - each affiliation in profile.affiliations
+            h3= affiliation
+    .clear
 
-        br
-
-        p= profile.summary
-
-        br
-
-    .section(style='padding-top: 20px')
-      .clearfix
-        h2 Skills
-
-      .item
-        - each skill in skills
-          span.skillname
-            | #{skill.name}
-          - if (!skill.auto)
-            span.skillstars
-              - each star in skill.stars
-                - var starUrl = '/img/star-' + star + '.png'
-                img(src=starUrl)
-
-          .clear
-
-        - if(request.loggedIn && isMe)
-          - if(!request.session.github)
-            p(style='margin-top:5px;')
-              | Los skills en lenguajes de programación se califican por medio de tu cuenta de github.
-              | Para enlazar tu cuenta de github, da click
-              a.button(href='/auth/github') aquí
-          - else
-            p(style='margin-top:5px;')
-              | Tu cuenta de github ya está enlazada, para calificar tus skills automáticamente da click
-              a.button(href='/edit/skills') aquí
-
-    - if(profile.educations.length > 0)
-      .section(style='padding-top: 20px')
-        .clearfix
-          h2 Educación
-
-      - each education in profile.educations
-        .item
-          h3= education.title
-          h4
-            | #{education.school}
-          .date #{education.start} -
-            - if(education.end)
-              | #{education.end}
-            - else
-              | presente
-          .description
-            p.margin= education.title
-            p= education.summary
-
-    - if(profile.publications.length > 0)
-      .section(style='padding-top: 20px')
-        .clearfix
-          h2 Publicaciones
-        - each publication in profile.publications
-          h3
-            a(href=publication.url)= publication.title
-
-    - if(profile.affiliations.length > 0)
-      .section(style='padding-top: 20px')
-        .clearfix
-          h2 Afiliaciones
-        - each affiliation in profile.affiliations
-          h3= affiliation
-  .clear
-
-- else
-  h1 #{profile.slug} llegará muy pronto a SG Talento
+#footer
+  #footer-innertube
+    .clear
+    p
+      | SG Talento es un servicio provisto por
+      a(href="http://sg.com.mx") SG Software Guru
+      |.

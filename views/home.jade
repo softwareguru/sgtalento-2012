@@ -1,1 +1,16 @@
-include home.html
+
+h2 Bienvenido a SG Talento
+
+.clear
+
+- if ('undefined' !== typeof errors && errors.length)
+    ul#errors
+        - each error in errors
+            li.error= error
+
+.clear
+
+p Por favor selecciona la acción que deseas realizar.
+ul
+    li
+        a(href="/buscar") Buscar personas

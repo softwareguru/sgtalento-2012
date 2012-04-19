@@ -1,7 +1,6 @@
 #Node modules ignore
 node_modules
 
-
 #Ignore gzip files
 *.gz
 
@@ -12,3 +11,8 @@ node_modules
 datastore
 utils
 logs
+old
+new
+
+#Ignore config file
+lib/conf.coffee

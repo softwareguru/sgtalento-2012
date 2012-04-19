@@ -1,14 +1,27 @@
+
+h2 Bienvenido a SG Talento
+
+.clear
+
+p Para ingresar, por favor introduce tu email y password.
+
 - if ('undefined' !== typeof errors && errors.length)
   ul#errors
     - each error in errors
       li.error= error
-h1 Bienvenido reclutador!
-form(action='/login', method='post')
+
+.clear
+
+
+form#form-container(action='/login', method='post')
   #login
     label(for=everyauth.password.loginFormFieldName) Email
-    input(type='text', name=everyauth.password.loginFormFieldName, value=email)
+    input(type='text', name=everyauth.password.loginFormFieldName, value=email, class='validate[required]')
+    .clear
   #password
     label(for=everyauth.password.passwordFormFieldName) Password
-    input(type='password', name=everyauth.password.passwordFormFieldName)
-  #submit
-    input(type='submit') Login
+    input(type='password', name=everyauth.password.passwordFormFieldName, class='validate[required]')
+    .clear
+  #submit-btn
+    input.submit(type='submit', value="Login")
+    .clear

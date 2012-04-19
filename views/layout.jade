@@ -1,26 +1,16 @@
 !!! 5
-html(class='no-js',lang=currentLocale)
+html
   head
     meta(charset='utf-8')
     meta(name='description',content='SG Talento')
-    meta(name='author',content='Just Cloud')
-    meta(name='viewport',width='width=device-width,initial-scale=1')
 
-    title SG Talento - Presúmete
+    title SG Talento
 
     //Google and tagit css
     link(rel='stylesheet',type='text/css', href='http://fonts.googleapis.com/css?family=Arimo:400,700|Yanone+Kaffeesatz&subset=latin&v2')
-    link(rel='stylesheet',type='text/css',media='screen',href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/base/jquery-ui.css')/
-    link(rel='stylesheet',type='text/css',media='screen',href='/styles/css/jquery.tagit.css')
 
     //Boilerplate before
-    link(rel='stylesheet',href='/styles/css/style.css')
-
-    //Bootstrap.less customized
-    link(rel='stylesheet',href='/styles/less/style.css')
-
-    link(rel="stylesheet", type="text/css", media="screen", href="/styles/css/main.css")
-    link(rel="stylesheet", type="text/css", media="print", href="/styles/css/print.css")
+    link(rel='stylesheet', type="text/css", href='/styles/css/style.css')
 
     //Custom view style
     - if(typeof(styles) != 'undefined')
@@ -38,39 +28,28 @@ html(class='no-js',lang=currentLocale)
         load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
       });
 
-  body
-    #page
+    body
+      #page
+        .spacer
+        #banner-header
+          img(src="/img/banner-header.jpg");
 
-      .spacer
-      #banner-header
-        img(src="/img/banner-header.jpg");
+        .content-innertube
+          - var infoMessages = request.flash('info')
+          - var warningMessages = request.flash('warning')
+          - var successMessages = request.flash('success')
+          - each info in infoMessages
+            .info= info
+          - each warning in warningMessages
+            .warning= warning
+          - each success in successMessages
+            .success= success
+          != body
 
-      .content-innertube
-        - var infoMessages = request.flash('info')
-        - var warningMessages = request.flash('warning')
-        - var successMessages = request.flash('success')
-        - each info in infoMessages
-          .info= info
-        - each warning in warningMessages
-          .warning= warning
-        - each success in successMessages
-          .success= success
-        != body
-
-      #banner-footer
-        img(src="/img/banner-footer.jpg");
-      #signature SG Talento es un servicio más proporcionado por
+        #banner-footer
+          img(src="/img/banner-footer.jpg");
+        #signature SG Talento es un servicio más proporcionado por
           a(href="http://sg.com.mx") &nbsp;SG Software Guru&nbsp;
-          p
-            | Soporte:
-            a(href="mailto:soporte.talento@sg.com.mx") soporte.talento@sg.com.mx
-
-    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js')
-
-    script
-      window.jQuery || document.write('<script src="/scripts/js/libs/jquery-1.6.2.min.js"><\\\/script>')
-      (jQuery && jQuery.ui) || document.write('<script src="/scripts/js/libs/jquery-ui-1.8.16.min.js"><\\\/script>')
-
-    script(src='//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js')
-
-    script(src='/scripts/js/plugins.js')
+        p
+          | Soporte:
+          a(href="mailto:soporte.talento@sg.com.mx") soporte.talento@sg.com.mx
