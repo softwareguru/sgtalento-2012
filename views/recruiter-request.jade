@@ -1,0 +1,16 @@
+
+h2 Bienvenido a SG Talento
+
+.clear
+
+- if ('undefined' !== typeof errors && errors.length)
+    ul#errors
+        - each error in errors
+            li.error= error
+
+.clear
+
+p Hemos recibido tu solicitud para ser activado como reclutador.
+ul
+    li
+        a(href="/") Solicita ser activado como reclutador.

@@ -38,18 +38,21 @@ html
           - var infoMessages = request.flash('info')
           - var warningMessages = request.flash('warning')
           - var successMessages = request.flash('success')
+          - var errorMessages = request.flash('error')
           - each info in infoMessages
             .info= info
           - each warning in warningMessages
             .warning= warning
           - each success in successMessages
             .success= success
+          - each error in errorMessages
+            .error= error
           != body
 
         #banner-footer
           img(src="/img/banner-footer.jpg");
         #signature SG Talento es un servicio más proporcionado por
           a(href="http://sg.com.mx") &nbsp;SG Software Guru&nbsp;
-        p
-          | Soporte:
+          br
           a(href="mailto:soporte.talento@sg.com.mx") soporte.talento@sg.com.mx
+

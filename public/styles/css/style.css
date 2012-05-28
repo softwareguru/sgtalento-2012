@@ -274,6 +274,9 @@ ul#main-nav {
     color: #404040;
     font-weight: bold;
 }
+#signature a:hover {
+    color: #707070;
+}
 
 #text {
     height:59px;
@@ -996,22 +999,6 @@ p.loading {
     outline:none;
 }
 
-.error {
-    background-color:#ab0000;
-    color:#ffffff;
-    font-size:12px;
-    font-weight:bold;
-    padding:10px;
-    line-height:20px;
-    width:250px;
-    position:relative;
-    top:0;
-    left:0;
-    -moz-border-radius: 5px 5px 5px 5px;
-    -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
-}
-
 #contact-loading {
     position:relative;
     top:25px;
@@ -1028,28 +1015,27 @@ h1.mail-sent {
     border: 1px solid;
     margin: 10px 0px;
     padding:15px 10px 15px 50px;
-    background-repeat: no-repeat;
-    background-position: 10px center;
+    list-style: disc inside none;
+    font-size: 0.9em;
+    font-style: italic;
 }
+
 .info {
     color: #00529B;
     background-color: #BDE5F8;
-    background-image: url('../../img/info.png');
 }
 .success {
     color: #4F8A10;
     background-color: #DFF2BF;
-    background-image:url('../../img/success.png');
 }
 .warning {
     color: #9F6000;
     background-color: #FEEFB3;
-    background-image: url('../../img/warning.png');
 }
+
 .error {
     color: #D8000C;
     background-color: #FFBABA;
-    background-image: url('../../img/error.png');
 }
 
 /* Jobs an such */

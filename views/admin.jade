@@ -1,0 +1,14 @@
+h1 Panel administrativo
+
+p Hay #{totalUsers} usuarios registrados.
+
+- if(pendingRoles.length)
+  p Tiene los siguientes usuarios por autorizar
+
+  ul
+  - each role in pendingRoles
+    li
+      = role._user.email
+      | 
+      a(href='/admin/authorize/' + role._user._id) Autorizar
+

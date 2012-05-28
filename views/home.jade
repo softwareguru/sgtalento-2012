@@ -3,14 +3,16 @@ h2 Bienvenido a SG Talento
 
 .clear
 
-- if ('undefined' !== typeof errors && errors.length)
-    ul#errors
-        - each error in errors
-            li.error= error
-
-.clear
-
-p Por favor selecciona la acción que deseas realizar.
+p Hola #{user.email}. Por favor selecciona la acción que deseas realizar.
 ul
+    - if(typeof(noPerfil) != 'undefined')
+      li
+        a(href="/createProfile") Crea tu perfil
     li
-        a(href="/buscar") Buscar personas
+      a(href="/buscar") Buscar personas
+    - if(typeof(showRequestLink) != 'undefined')
+      li
+        a(href="/recruiter/request") Solicitar activación como reclutador
+    - if(typeof(isAdmin) != 'undefined')
+      li
+        a(href="/admin") Opciones para administrador
