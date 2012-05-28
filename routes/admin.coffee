@@ -12,16 +12,15 @@ School = model.School
 
 setup = (app) ->
   app.get '/admin', (req, res) ->
-
-    User.find {role:'RECRUITER', registered:false}, (err, authorizeUsers) ->
+    User.find {role: 'RECRUITER', registered: false}, (err, authorizeUsers) ->
       if (!err)
         res.local 'authorizeUsers', authorizeUsers
 
-      User.find {role:'RECRUITER', registered:true}, (err, users) ->
+      User.find {role: 'RECRUITER', registered: true}, (err, users) ->
         if (!err)
           res.local 'users', users
 
-        User.count { filled : true }, (err, filled) ->
+        User.count { filled: true }, (err, filled) ->
           if(!err)
             res.local 'filled', filled
 
@@ -31,19 +30,16 @@ setup = (app) ->
     id = req.params.id
 
     User.findById id, (err, user) ->
-
-
       if err
-        req.flash 'warning', err 
+        req.flash 'warning', err
       else
         user.registered = true
         user.save (err) ->
-
           if err
-            req.flash 'warning', err 
+            req.flash 'warning', err
           else
             req.flash 'success', 'El usuario ha sido autorizado'
-            
+
           res.redirect '/admin'
 
 exports.setup = setup

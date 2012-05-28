@@ -6,13 +6,19 @@ mongoose.connect conf.mongo_url
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
 
-Role = new Schema {
-  name: String
-  expiration: Date
+RoleSchema = new Schema {
+  _user: { type: Schema.ObjectId, ref: 'User' }
+  type: String
+  requestDate: { type: Date, default : Date.now }
+  expiration: { type: Date, default : '0' }
+  comments: String
 }
 
+mongoose.model 'Role', RoleSchema
+Role = mongoose.model 'Role'
+
 SocialDataSchema = new Schema {
-  _user: { type: Schema.ObjectId, ref: UserSchema }
+  _user: { type: Schema.ObjectId, ref: 'User' }
   type: String
   id: String
   collectionDate : { type: Date, default : Date.now }
@@ -22,20 +28,54 @@ SocialDataSchema = new Schema {
 UserSchema = new Schema {
   email: {type: String, index: { unique: true }}
   password: { type: String }
-  roles: [Role]
+  roles : [{ type: Schema.ObjectId, ref: 'Role' }]
   alias: {type: String, index: { unique: true, sparse: true }}
   profile: [ProfileSchema]
   socialData: [SocialDataSchema]
   created: { type: Date, default : Date.now }
+  admin: { type: Boolean, default : false }
   debugInfo: String
 }
 
-UserSchema.method "isRecruiter", ->
-  console.log "Checking if "+@email+" isRecruiter"
+UserSchema.method "isAdmin", ->
   result = false
-  @roles.forEach (role) ->
-    result = true  if role.name is "RECRUITER"
-  result
+  if (@admin)
+    result = true
+
+
+UserSchema.method "isRecruiter", (callback) ->
+  console.log "Checking if "+@email+" isRecruiter"
+  now = new Date()
+  if @roles.length is 0
+    callback(false)
+  else
+    # we have to load roles
+    Role.where('_id').in(@roles).run (err, res) ->
+      result = false
+      res.forEach (role) ->
+        result = true if role.type is "RECRUITER" and role.expiration > now
+      callback(result)
+
+
+UserSchema.method "isWaitingActivation", (callback) ->
+  console.log "Checking if "+@email+" isWaitingActivation"
+  now = new Date()
+  if @roles.length is 0
+    callback(false)
+  else if @roles[0].type
+    console.log "Roles were already loaded"
+    result = false
+    @roles.forEach (role) ->
+      result = true if role.type is "RECRUITER" and role.expiration < role.requestDate
+    callback(result)
+  else
+    # we have to load roles
+    Role.where('_id').in(@roles).run (err, res) ->
+      @roles = res
+      result = false
+      res.forEach (role) ->
+        result = true if role.type is "RECRUITER" and role.expiration < role.requestDate
+      callback(result)
 
 ProfileSchema = new Schema {
   title: String
@@ -173,9 +213,11 @@ exports.User = mongoose.model 'User'
 exports.Profile = mongoose.model 'Profile'
 exports.Olduser = mongoose.model 'Olduser'
 exports.SocialData = mongoose.model 'SocialData'
+exports.Role = mongoose.model 'Role'
 # exports.Company = mongoose.model 'Company'
 # exports.Publication = mongoose.model 'Publication'
 # exports.School = mongoose.model 'School'
 # exports.Job = mongoose.model 'Job'
 # exports.Education = mongoose.model 'Education'
 # exports.DominantSkill = mongoose.model 'DominantSkill'
+
