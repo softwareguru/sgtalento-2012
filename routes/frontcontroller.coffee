@@ -40,7 +40,7 @@ setup = (app) ->
           callback null, recruiter
     ],
     (err, results) ->
-      console.log req.user.email+" isRecruiter: "+results[0]+" isWaitingActivation: "+results[1]
+      console.log req.user.email+" isWaiting: "+results[0]+" isRecruiter: "+results[1]
 
       if(!results[0] && !results[1])
         res.local 'showRequestLink', true
@@ -65,17 +65,19 @@ setup = (app) ->
 
   # recruiter routes
   app.get '/recruiter/request', (req, res) ->
-    resultMsg = "Recibimos tu petición de activar pero nada sucedió. Avisa al administrador del sistema."
+    resultMsg = "Hemos registrado tu petición de ser activado como reclutador."
 
     async.series [
       (callback) ->
         req.user.isWaitingActivation (waiting) ->
-          resultMsg = "Actualmente tienes una petición pendiente de autorizar."
+          if (waiting)
+            resultMsg = "Actualmente tienes una petición pendiente de autorizar."
           callback null, waiting
       ,
       (callback) ->
         req.user.isRecruiter (recruiter) ->
-          resultMsg = "Actualmente estás activo como reclutador, no es necesario reactivarte."
+          if (recruiter)
+            resultMsg = "Actualmente estás activo como reclutador, no es necesario reactivarte."
           callback null, recruiter
     ],
     (err, results) ->
